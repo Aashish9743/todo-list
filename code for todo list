@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To Do List</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: 'Times New Roman', Times, serif;
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 100%;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #153677, #4e085f);
+      padding: 10px;
+    }
+
+    .todo-app {
+      width: 100%;
+      max-width: 540px;
+      background: #fff;
+      margin: 100px auto 20px;
+      padding: 40px 30px 40px;
+      border-radius: 10px;
+    }
+
+    input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      padding: 10px;
+    }
+
+    ul li {
+      list-style: none;
+      font-size: 19px;
+      padding: 12px 8px 12px 50px;
+      user-select: none;
+      position: relative;
+      cursor: pointer;
+    }
+
+    ul li::before {
+      content: '';
+      position: absolute;
+      height: 28px;
+      width: 28px;
+      border-radius: 50%;
+      background-image: url(unchecked.jpeg);
+      background-size: cover;
+      background-position: center;
+      top: 12px;
+      left: 8px;
+    }
+
+    .todo-app h2 {
+      color: #002765;
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .todo-app h2 img {
+      width: 30px;
+      margin-left: 10px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: orange;
+      border-radius: 30px;
+      padding-left: 20px;
+      margin-bottom: 25px;
+    }
+
+    button {
+      border: none;
+      outline: none;
+      padding: 16px 50px;
+      background: #ff5945;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 40px;
+    }
+
+    ul li.checked {
+      color: #555;
+      text-decoration: line-through;
+    }
+
+    ul li.checked::before {
+      background-image: url(checked.jpg);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="todo-app">
+      <h2>
+        Task List
+        <img src="icon.png" alt="Icon">
+      </h2>
+      <div class="row">
+        <input type="text" id="taskInput" placeholder="Add a new task">
+        <button onclick="addTask()">Add Task</button>
+      </div>
+      <ul id="list-container"></ul>
+    </div>
+  </div>
+
+  <script>
+    const inputBox = document.getElementById("taskInput");
+    const listContainer = document.getElementById("list-container");
+
+    function addTask() {
+      if (inputBox.value === '') {
+        alert("You must write something!");
+      } else {
+        let li = document.createElement("li");
+        li.innerHTML = inputBox.value;
+
+        let span = document.createElement("span");
+        span.innerHTML = "\u00d7";
+        span.onclick = function () {
+          li.remove();
+        };
+
+        li.appendChild(span);
+        listContainer.appendChild(li);
+      }
+      inputBox.value = "";
+    }
+
+    listContainer.addEventListener("click", function (e) {
+      if (e.target.tagName === "LI") {
+        e.target.classList.toggle("checked");
+      } else if (e.target.tagName === "SPAN") {
+        e.target.parentElement.remove();
+      }
+    }, false);
+
+    // Example of adding tasks dynamically
+
+  </script>
+</body>
+
+</html>
