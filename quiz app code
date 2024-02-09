@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz App</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+
+    #quiz-container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #question {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .option {
+      margin: 10px;
+      padding: 10px;
+      width: 200px;
+      cursor: pointer;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .option:hover {
+      background-color: #f0f0f0;
+    }
+
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz App</h1>
+
+  <div id="quiz-container">
+    <div id="question"></div>
+
+    <div class="options" id="options-container"></div>
+
+    <div id="result"></div>
+
+    <button onclick="nextQuestion()">Next Question</button>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "What is the capital of France?",
+        options: ["Berlin", "Madrid", "Paris", "Rome"],
+        correctAnswer: "Paris"
+      },
+      {
+        question: "Which planet is known as the Red Planet?",
+        options: ["Earth", "Mars", "Jupiter", "Saturn"],
+        correctAnswer: "Mars"
+      },
+      {
+        question: "What is the largest mammal in the world?",
+        options: ["Elephant", "Giraffe", "Blue Whale", "Hippopotamus"],
+        correctAnswer: "Blue Whale"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const questionElement = document.getElementById('question');
+      const optionsContainer = document.getElementById('options-container');
+      const resultElement = document.getElementById('result');
+
+      const currentQuiz = questions[currentQuestion];
+
+      questionElement.textContent = currentQuiz.question;
+      optionsContainer.innerHTML = '';
+
+      currentQuiz.options.forEach((option, index) => {
+        const optionElement = document.createElement('div');
+        optionElement.classList.add('option');
+        optionElement.textContent = option;
+        optionElement.addEventListener('click', () => checkAnswer(option, currentQuiz.correctAnswer));
+        optionsContainer.appendChild(optionElement);
+      });
+
+      resultElement.textContent = '';
+    }
+
+    function checkAnswer(selectedAnswer, correctAnswer) {
+      const resultElement = document.getElementById('result');
+
+      if (selectedAnswer === correctAnswer) {
+        score++;
+        resultElement.textContent = 'Correct!';
+      } else {
+        resultElement.textContent = 'Incorrect. The correct answer is: ' + correctAnswer;
+      }
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+      } else {
+        showFinalScore();
+      }
+    }
+
+    function showFinalScore() {
+      const quizContainer = document.getElementById('quiz-container');
+      quizContainer.innerHTML = `<h2>Quiz Completed!</h2><p>Your final score is: ${score}/${questions.length}</p>`;
+    }
+
+    // Initial load
+    loadQuestion();
+  </script>
+</body>
+</html>
